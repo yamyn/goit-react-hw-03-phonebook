@@ -11,7 +11,7 @@ const ContactsList = ({ contacts, onDeleteContact }) => (
                 <th>#</th>
                 <th>Name</th>
                 <th>Number</th>
-                <th></th>
+                <th />
             </tr>
         </thead>
 

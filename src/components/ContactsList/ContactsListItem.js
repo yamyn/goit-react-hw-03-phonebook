@@ -8,7 +8,7 @@ function ContactsListItem({ index, name, number, onDeleteContact }) {
             <td>{name}</td>
             <td>{number}</td>
             <td>
-                <button type='button' onClick={onDeleteContact}>
+                <button type="button" onClick={onDeleteContact}>
                     Delete
                 </button>
             </td>

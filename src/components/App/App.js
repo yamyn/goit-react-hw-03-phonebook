@@ -10,7 +10,7 @@ import Filter from '../Filter/Filter';
 import CreateContactForm from '../CreateContactForm/CreateContactForm';
 
 const filterContacts = (contacts, filter) => {
-    return contacts.filter((contact) =>
+    return contacts.filter(contact =>
         contact.name.toLowerCase().includes(filter.toLowerCase()),
     );
 };
@@ -27,43 +27,44 @@ export default class App extends Component {
         if (savedContacts) {
             this.setState({ contacts: JSON.parse(savedContacts) });
         }
-        return;
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.contacts !== this.state.contacts) {
-            localStorage.setItem(
-                'contacts',
-                JSON.stringify(this.state.contacts),
-            );
+        const { constacts } = this.state;
+        if (prevState.contacts !== constacts) {
+            localStorage.setItem('contacts', JSON.stringify(constacts));
         }
     }
 
-    changeFilter = (event) => {
+    changeFilter = event => {
         this.setState({ filter: event.target.value });
     };
 
-    addContact = (contact) => {
+    addContact = contact => {
         const isUniqueName = this.state.contacts.some(
-            (savedContact) =>
+            savedContact =>
                 savedContact.name.toLowerCase() === contact.name.toLowerCase(),
         );
 
         if (isUniqueName) {
+            // eslint-disable-next-line no-alert
             return alert(`${contact.name} is already in contacts`);
         }
         const contactToAdd = {
             ...contact,
             id: shortid.generate(),
         };
-        this.setState((state) => ({
+        this.setState(state => ({
             contacts: [...state.contacts, contactToAdd],
         }));
+
+        return null;
     };
 
-    deleteContact = (id) => {
-        this.setState((state) => ({
-            contacts: state.contacts.filter((contact) => contact.id !== id),
+    deleteContact = id => {
+        this.setState(state => ({
+            contacts: state.contacts.filter(contact => contact.id !== id),
+            filter: '',
         }));
     };
 
@@ -74,11 +75,11 @@ export default class App extends Component {
         return (
             <div className={styles.container}>
                 <h1>goit-react-hw-03-phonebook</h1>
-                <Section title='Phonebook'>
+                <Section title="Phonebook">
                     <CreateContactForm onAddContact={this.addContact} />
                 </Section>
-                <Section title='Contacts'>
-                    {this.state.contacts.length > 2 && (
+                <Section title="Contacts">
+                    {contacts.length >= 2 && (
                         <Filter
                             value={filter}
                             onChangeFilter={this.changeFilter}
@@ -90,7 +91,7 @@ export default class App extends Component {
                             onDeleteContact={this.deleteContact}
                         />
                     ) : (
-                        <Notification message='Contacts for query not found' />
+                        <Notification message="Contacts for query not found" />
                     )}
                 </Section>
             </div>
